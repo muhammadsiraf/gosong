@@ -45,4 +45,18 @@ func main() {
 	secret2 = []string{"apple", "mango", "banana"}
 	var gruits = strings.Join(secret2.([]string), ", ")
 	fmt.Println(gruits, "is my favourite fruits")
+
+	type person struct {
+		name string
+		age  int
+	}
+	var manusia person
+	manusia.name = "udin"
+	manusia.age = 30
+
+	var secret3 interface{} = &person{name: "wick", age: 27}
+	var name = secret3.(*person).name
+	fmt.Println(name)
+	fmt.Println(manusia)
+
 }
