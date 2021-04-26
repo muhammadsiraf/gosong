@@ -69,4 +69,14 @@ func main() {
 		fmt.Println(each["name"], "age is", each["age"])
 	}
 
+	var fruits = []interface{}{
+		map[string]interface{}{"name": "udin", "age": 20},
+		[]string{"mango", "pineapple", "papaya"},
+		"orange",
+	}
+
+	for _, each := range fruits {
+		fmt.Println(each)
+	}
+
 }
