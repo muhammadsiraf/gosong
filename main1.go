@@ -59,4 +59,14 @@ func main() {
 	fmt.Println(name)
 	fmt.Println(manusia)
 
+	var person2 = []map[string]interface{}{
+		{"name": "wick", "age": 30},
+		{"name": "ethan", "age": 40},
+		{"name": "bourne", "age": 45},
+	}
+
+	for _, each := range person2 {
+		fmt.Println(each["name"], "age is", each["age"])
+	}
+
 }
