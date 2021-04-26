@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 	var secret interface{}
@@ -33,4 +36,13 @@ func main() {
 
 	fmt.Println(data2)
 
+	var secret2 interface{}
+
+	secret2 = 2
+	var number = secret2.(int) * 10
+	fmt.Println(secret2, "muliplied by 10 is :", number)
+
+	secret2 = []string{"apple", "mango", "banana"}
+	var gruits = strings.Join(secret2.([]string), ", ")
+	fmt.Println(gruits, "is my favourite fruits")
 }
