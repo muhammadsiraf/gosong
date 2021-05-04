@@ -1,15 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
-	number := 3
-
-	if number == 3 {
-		fmt.Println("halo 1")
-		func() {
-			defer fmt.Println("halo3")
-		}()
-	}
-	fmt.Println("Halo 2")
+	defer fmt.Println("halo")
+	os.Exit(1)
+	fmt.Print("selamat datang")
 }
