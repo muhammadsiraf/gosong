@@ -22,22 +22,21 @@ func catch() {
 }
 
 func main() {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("Panic occured", r)
-		} else {
-			fmt.Println("Application running perfectly")
-		}
-	}()
+	data := []string{"superman", "aquaman", "wonder woman"}
 
-	var name string
-	fmt.Print("Type your name:  ")
-	fmt.Scanln(&name)
+	for _, each := range data {
 
-	if valid, err := validate(name); valid {
-		fmt.Println("halo", name)
-	} else {
-		panic(err.Error())
-		fmt.Println(err.Error())
+		func() {
+
+			defer func() {
+				if r := recover(); r != nil {
+					fmt.Println("Panic occured on looping", each, "| message:", r)
+				} else {
+					fmt.Println("Application running perfectly")
+				}
+			}()
+
+			panic("some error happen")
+		}()
 	}
 }
