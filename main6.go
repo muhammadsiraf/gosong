@@ -23,24 +23,22 @@ func getMax(numbers []int, ch chan int) {
 	ch <- max
 }
 
+func sendMessage(ch chan<- string) {
+	for i := 0; i < 20; i++ {
+		ch <- fmt.Sprintf("data %d", i)
+	}
+}
+
+func printMessage(ch <-chan string) {
+	for message := range ch {
+		fmt.Println(message)
+	}
+}
+
 func main() {
 	runtime.GOMAXPROCS(2)
 
-	var numbers = []int{3, 3, 5, 6, 7, 8, 4, 2, 1, 4, 5, 6, 7, 8, 3, 1, 2, 23, 4, 5, 6}
-	fmt.Println("numbers : ", numbers)
-
-	var ch1 = make(chan float64)
-	go getAverage(numbers, ch1)
-
-	var ch2 = make(chan int)
-	go getMax(numbers, ch2)
-
-	for i := 0; i < 2; i++ {
-		select {
-		case avg := <-ch1:
-			fmt.Printf("avg \t: %.2f \n", avg)
-		case max := <-ch2:
-			fmt.Printf("Max \t: %d \n", max)
-		}
-	}
+	var messages = make(chan string)
+	go sendMessage(messages)
+	printMessage(messages)
 }
