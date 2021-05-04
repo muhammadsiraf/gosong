@@ -22,7 +22,13 @@ func catch() {
 }
 
 func main() {
-	defer catch()
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Panic occured", r)
+		} else {
+			fmt.Println("Application running perfectly")
+		}
+	}()
 
 	var name string
 	fmt.Print("Type your name:  ")
