@@ -8,24 +8,17 @@ import (
 func main() {
 	runtime.GOMAXPROCS(2)
 
-	var messages = make(chan string)
+	messages := make(chan int, 2)
 
-	var sayHelloTo = func(who string) {
-		var data = fmt.Sprintf("Hello %s", who)
-		messages <- data
+	go func() {
+		for {
+			i := <-messages
+			fmt.Println("recevive data: ", i)
+		}
+	}()
+
+	for i := 0; i < 5; i++ {
+		fmt.Println("Send Data", i)
+		messages <- i
 	}
-
-	go sayHelloTo("John Wick")
-	go sayHelloTo("ethan hunt")
-	go sayHelloTo("jason bourne asdkjsjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
-
-	var message1 = <-messages
-	fmt.Println(message1)
-
-	var message2 = <-messages
-	fmt.Println(message2)
-
-	var message3 = <-messages
-	fmt.Println(message3)
-
 }
