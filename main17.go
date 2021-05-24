@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -50,7 +51,35 @@ func writeFile() {
 	fmt.Println("==> file berhasil di isi")
 }
 
+func readFile() {
+	var file, err = os.OpenFile(path, os.O_RDONLY, 0644)
+	if isError(err) {
+		return
+	}
+	defer file.Close()
+
+	var text = make([]byte, 1024)
+	for {
+		n, err := file.Read(text)
+		if err != io.EOF {
+			if isError(err) {
+				break
+			}
+		}
+		if n == 0 {
+			break
+		}
+	}
+	if isError(err) {
+		return
+	}
+
+	fmt.Println("==> file berhasil dibaca")
+	fmt.Println(string(text))
+}
+
 func main() {
 	createFile()
 	writeFile()
+	readFile()
 }
