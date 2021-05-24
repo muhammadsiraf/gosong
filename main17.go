@@ -78,8 +78,17 @@ func readFile() {
 	fmt.Println(string(text))
 }
 
+func deleteFile() {
+	var err = os.Remove(path)
+	if isError(err) {
+		return
+	}
+	fmt.Println("==> file berhasil dihapus")
+}
+
 func main() {
 	createFile()
 	writeFile()
 	readFile()
+	deleteFile()
 }
