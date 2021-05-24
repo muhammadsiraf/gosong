@@ -1,29 +1,34 @@
 package main
 
 import (
-	"encoding/base64"
+	"crypto/sha1"
 	"fmt"
+	"time"
 )
 
 func main() {
-	var data = "jokowi tiga periode"
+	var text = "this is secret"
+	var sha = sha1.New()
+	sha.Write([]byte(text))
+	var encrypted = sha.Sum(nil)
+	var encryptedString = fmt.Sprintf("%x", encrypted)
 
-	var encodedString = base64.StdEncoding.EncodeToString([]byte(data))
-	fmt.Println("encoded:", encodedString)
+	fmt.Println(encryptedString)
 
-	// var decodedByte, _ = base64.StdEncoding.DecodeString(encodedString)
-	// var decodedString = string(decodedByte)
-	// fmt.Println("decoded:", decodedString)
-	var encoded = make([]byte, base64.StdEncoding.EncodedLen(len(data)))
-	base64.StdEncoding.Encode(encoded, []byte(data))
-	encodedString = string(encoded)
-	fmt.Println(encodedString)
+	hashSalt, salt := hashSalting("i love you m")
+	fmt.Printf("hasil hash : %s", hashSalt)
+	fmt.Println()
+	fmt.Printf("salting : %s", salt)
 
-	var decoded = make([]byte, base64.StdEncoding.DecodedLen(len(encoded)))
-	var _, err = base64.StdEncoding.Decode(decoded, encoded)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	var decodedString = string(decoded)
-	fmt.Println(decodedString)
+}
+
+func hashSalting(text string) (string, string) {
+	var salt = fmt.Sprintf("%d", time.Now().UnixNano())
+	var saltedText = fmt.Sprintf("text: '%s', salt: %s", text, salt)
+	fmt.Println(saltedText)
+	var sha = sha1.New()
+	sha.Write([]byte(saltedText))
+	var encrypted = sha.Sum(nil)
+
+	return fmt.Sprintf("%x", encrypted), saltedText
 }
